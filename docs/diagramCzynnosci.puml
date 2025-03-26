@@ -1,0 +1,22 @@
+@startuml
+Title Ściepa
+start
+:Użytkownik wprowadza osoby uczestniczące w wydatkach grupowych;
+repeat
+    :Użytkownik podaje cel wydatku;
+    :Użytkownik wskazuje, kto zapłacił;
+    :Użytkownik podaje kwotę wydatku;
+    :Użytkownik wskazuje osoby, które powinny partycypować w kosztach;
+repeat while (Użytkownik przechodzi do rozliczenia?)
+while (Istnieje osoba z ujemnym bilansem?)
+    :Program znajduje osobę z dodatnim bilansem;
+    if (|dlug| > nadplata)
+        :Kwowa przelewu = nadpłata;
+    else
+        :Kwtoa przelewu = |dług|;
+    endif
+    :Tworzenie rządania przelewu;
+endwhile
+:Prezentacja rozliczenia;
+stop
+@enduml
