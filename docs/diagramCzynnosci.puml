@@ -10,10 +10,10 @@ repeat
 repeat while (Użytkownik przechodzi do rozliczenia?)
 while (Istnieje osoba z ujemnym bilansem?)
     :Program znajduje osobę z dodatnim bilansem;
-    if (|dlug| > nadplata)
-        :Kwowa przelewu = nadpłata;
-    else
-        :Kwtoa przelewu = |dług|;
+    if (|dlug| > nadplata) then (tak)
+        :Kwota przelewu = nadpłata;
+    else (nie)
+        :Kwota przelewu = |dług|;
     endif
     :Tworzenie rządania przelewu;
 endwhile
