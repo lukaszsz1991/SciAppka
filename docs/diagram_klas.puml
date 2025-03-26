@@ -1,0 +1,39 @@
+@startuml
+class Person {
+    -name: String
+    -expenses: Float
+    -debt: Float
+    -balance: Float
+    +__str__(): String
+}
+
+class Expense{
+    -name: String
+    -payer: Person
+    -amount: Float
+    -beneficiaries: List[Person]
+    -isPayerBeneficiary: Boolean
+    -debt: Float
+    +__str__(): String
+}
+
+class Accounting{
+    -refund_giver: Person
+    -refund_receiver: Person
+    -amount: Float
+}
+
+class Calculation{
+    -team: List[Person]
+    -accountings: List[Accounting]
+    +__str__()
+}
+
+Person "1"--"*" Expense : payer >
+Expense "1"--"*" Person  : beneficiaries >
+Accounting "1"--"1" Person : refund_giver >
+Accounting "1"--"1" Person : refund_receiver >
+Accounting "*"--"1" Calculation : refund >
+Person "*"--"1" Calculation: check_balance >
+
+@enduml
