@@ -1,0 +1,29 @@
+@startuml
+Title ŚciAppka
+actor "Użytkownik" as User
+actor "System" as System
+
+usecase "Podanie imion uczestników" as UC1
+usecase "Dodanie wydatku" as UC2
+usecase "Wybór płacącego" as UC3
+usecase "Podanie kwoty wydatku" as UC4
+usecase "Wybór beneficjentów" as UC5
+usecase "Rozliczenie" as UC6
+usecase "Wyświetlenie rozliczenia" as UC7
+
+User --> UC1 : Podaje imiona uczestników
+User --> UC2 : Dodaje wydatek
+User --> UC3 : Wybiera płacącego
+User --> UC4 : Podaje kwotę wydatku
+User --> UC5 : Wybiera beneficjentów
+User --> UC6 : Rozlicza wydatki
+User --> UC7 : Wyświetla rozliczenie
+
+UC2 --> UC3 : Wybór płacącego
+UC2 --> UC4 : Podanie kwoty wydatku
+UC2 --> UC5 : Wybór beneficjentów
+UC6 --> UC7 : Wyświetlanie wyników rozliczenia
+
+System --> UC6 : Wykonuje obliczenia
+
+@enduml

@@ -1,4 +1,5 @@
 @startuml
+Title ŚciAppka
 class Person {
     -name: String
     -expenses: Float

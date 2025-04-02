@@ -6,4 +6,4 @@ class Person:
         self.balance = 0
 
     def __str__(self):
-        return f"\n{self.name} zapłacił(a) {self.expenses:.2f} zł.\nPowininien zapłacić: {self.debt:.2f} zł.\nSaldo: {self.balance:.2f} zł."
+        return f"\n{self.name} zapłacił(a) {self.expenses:.2f} zł.\nPowinien zapłacić: {self.debt:.2f} zł.\nSaldo: {self.balance:.2f} zł."

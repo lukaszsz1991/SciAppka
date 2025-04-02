@@ -1,5 +1,5 @@
 @startuml
-Title Ściepa
+Title ŚciAppka
 start
 :Użytkownik wprowadza osoby uczestniczące w wydatkach grupowych;
 repeat
