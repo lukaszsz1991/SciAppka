@@ -1,6 +1,8 @@
 from person import Person
 from expense import Expense
 from calculation import Calculation
+from output import *
+
 print("Program rozlicza wydatki grupowe i na koniec podaje, kto komu ile ma zwrócić.")
 names = input("\nPodaj imiona (unikatowe) uczesników rozliczenia (rozdzielone przecinkami):\n")
 team = []
@@ -37,4 +39,6 @@ for person in team:
     print(person)
 
 refunds = Calculation(team)
+generate_diagram(refunds)
+generate_md(team, expenses, refunds)
 print(refunds)

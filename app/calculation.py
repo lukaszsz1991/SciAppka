@@ -18,7 +18,9 @@ class Calculation:
                         break
 
     def __str__(self):
+        if not self.accountings:
+            return("Żadne rozliczenia nie są konieczne. Każdy uczestnik zapłacił dokładnie tyle, ile powinien.")
         parts = []
         for refund in self.accountings:
-            parts.append(f"{refund.refund_giver.name} ma zawrócić {refund.amuont:.2f}zł -> {refund.refund_receiver.name}")
+            parts.append(f"{refund.refund_giver.name} ma zawrócić {refund.amount:.2f}zł -> {refund.refund_receiver.name}")
         return "\n"+"\n".join(parts)
