@@ -3,7 +3,6 @@ from accounting import *
 from expense import *
 from datetime import datetime
 from plantuml import PlantUML
-import subprocess
 import pypandoc
 import os
 
@@ -49,10 +48,25 @@ def generate_output(refunds: Calculation, team: List[Person], expenses: List[Exp
     result += '\n\n---\n### Diagram rozliczenia\n'
     result += '<p align="center"><img src="diagram_rozliczenie.png" width="600"/></p>\n'
     result += f"\n*Raport wygenerowano: {datetime.now().strftime('%d-%m-%Y %H-%M-%S')}*"
-    subprocess.run(["markdown-pdf", "out/raport.md", "-o", "out/raport.pdf"])
 
-    """
+    
     with open("out/raport.md", "w", encoding="utf-8") as raport:
         raport.write(result)
     pypandoc.convert_file("out/raport.md", to="pdf", format="md", outputfile="out/raport.pdf", extra_args=["-t", "latex"])
-    """
+
+    #Generowanie .tex
+    result = "\documentclass{report}\n\\usepackage[polish]{babel}\n\\usepackage[utf8]{inputenc}\n\\usepackage{graphicx}\n\\usepackage[T1]{fontenc}\n\\begin{document}\n\section*{Rozliczenie wydatków grupowych}\n\subsection*{Uczestnicy rozliczenia}\n\\begin{itemize}\n"
+    for person in team:
+        result += f"\item {person.name}\n"
+    result += "\end{itemize}\n\subsection*{Wydatki}\n"
+    for expense in expenses:
+        result += f"\subsubsection*{{{expense.name}}}\n\\textbf{{Płacący: }} {expense.payer.name}\n\\textbf{{Kwota: }} {expense.amount:.2f}zł\n\\textbf{{Beneficjenci wydatku: }}{', '.join([person.name for person in expense.beneficiaries])}  \n \\textbf{{Należność na głowę: }} {expense.debt:.2f}zł\n"
+    result += "\subsection*{Indywidualny koszt}\n"
+    for person in team:
+        result += f"{person.name} ---> {person.debt:.2f}zł\\\\"
+    result += "\subsection*{Rozliczenie}\n"
+    for accounting in refunds.accountings:
+        result += f"{accounting.refund_giver.name} ---{accounting.amount:.2f}zł---> {accounting.refund_receiver.name}\\\\"
+    result += "\subsection*{Diagram rozliczeniowy}\n\includegraphics[scale=0.4]{diagram_rozliczenie.png}\\\\\\end{document}"
+    with open("out/raport.tex", "w", encoding="utf-8") as raporttex:
+        raporttex.write(result)

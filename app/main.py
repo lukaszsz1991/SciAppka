@@ -39,7 +39,7 @@ if not useTestData:
 
     for person in team:
         print(person)
-else:
+else: #Zestaw danych testowych
     team = []
     expenses = []
     team.append(Person("Maciek"))
