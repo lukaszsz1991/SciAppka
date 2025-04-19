@@ -14,16 +14,15 @@ Projekt w ramach modułu Projektowanie i programowanie obiektowe II
 
 ### W repozytorium znajdziemy:
 +  **Pliki w języku programowania Python**
-
   Kod aplikacji oraz wszelkie skrypty niezbędne do jej działania.
 
-+  **Dokumentację napisaną w TeX**  
++  **Dokumentację napisaną w TeX**
   Szczegółowa dokumentacja opisująca funkcjonalności aplikacji, jej strukturę oraz sposób implementacji.
 
-+ **Diagramy stworzony w PlantUML**  
++ **Diagramy stworzony w PlantUML**
   Diagramy ilustrujące architekturę aplikacji oraz interakcje między poszczególnymi komponentami systemu.
 
 ---
 
 ### Uruchomienie
-Aplikację uruchamiamy poprzez plikj `main.py`
+Aplikację uruchamiamy poprzez plik `main.py`
