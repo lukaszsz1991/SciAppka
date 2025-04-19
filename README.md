@@ -13,7 +13,7 @@ Projekt w ramach modułu Projektowanie i programowanie obiektowe II
 ---
 
 ### W repozytorium znajdziemy:
-+  Pliki w języku programowania Python
++  **Pliki w języku programowania Python**  
   Kod aplikacji oraz wszelkie skrypty niezbędne do jej działania.
 
 +  **Dokumentację napisaną w TeX**  
@@ -25,4 +25,4 @@ Projekt w ramach modułu Projektowanie i programowanie obiektowe II
 ---
 
 ### Uruchomienie
-Aplikację uruchamiamy poprzez plikj `main.py`
+Aplikację uruchamiamy poprzez plik `main.py`
