@@ -3,7 +3,8 @@ from accounting import *
 from expense import *
 from datetime import datetime
 from plantuml import PlantUML
-import pypandoc
+import subprocess
+import time
 import os
 
 os.makedirs("out", exist_ok=True)
@@ -23,7 +24,7 @@ def generate_output(refunds: Calculation, team: List[Person], expenses: List[Exp
     plantuml.processes_file(puml_file_path)
 
 
-    #Generowanie raportu w Markdown z eksportem do PDF
+    #Generowanie raportu w Markdown
     result = "# Raport rozliczeniowy wydatków grupowych\n\n"
     result += "\n### Uczestnicy rozliczenia\n"
     for person in team:
@@ -48,14 +49,11 @@ def generate_output(refunds: Calculation, team: List[Person], expenses: List[Exp
     result += '\n\n---\n### Diagram rozliczenia\n'
     result += '<p align="center"><img src="diagram_rozliczenie.png" width="600"/></p>\n'
     result += f"\n*Raport wygenerowano: {datetime.now().strftime('%d-%m-%Y %H-%M-%S')}*"
-
-    
     with open("out/raport.md", "w", encoding="utf-8") as raport:
         raport.write(result)
-    pypandoc.convert_file("out/raport.md", to="pdf", format="md", outputfile="out/raport.pdf", extra_args=["-t", "latex"])
 
     #Generowanie .tex
-    result = "\documentclass{report}\n\\usepackage[polish]{babel}\n\\usepackage[utf8]{inputenc}\n\\usepackage{graphicx}\n\\usepackage[T1]{fontenc}\n\\begin{document}\n\section*{Rozliczenie wydatków grupowych}\n\subsection*{Uczestnicy rozliczenia}\n\\begin{itemize}\n"
+    result = "\documentclass{report}\n\\usepackage[polish]{babel}\n\\usepackage[utf8]{inputenc}\n\\usepackage{graphicx}\n\\usepackage[T1]{fontenc}\n\\usepackage[left=3cm,right=3cm,top=3cm,bottom=3cm]{geometry}\n\\begin{document}\n\section*{Rozliczenie wydatków grupowych}\n\subsection*{Uczestnicy rozliczenia}\n\\begin{itemize}\n"
     for person in team:
         result += f"\item {person.name}\n"
     result += "\end{itemize}\n\subsection*{Wydatki}\n"
@@ -67,6 +65,24 @@ def generate_output(refunds: Calculation, team: List[Person], expenses: List[Exp
     result += "\subsection*{Rozliczenie}\n"
     for accounting in refunds.accountings:
         result += f"{accounting.refund_giver.name} ---{accounting.amount:.2f}zł---> {accounting.refund_receiver.name}\\\\"
-    result += "\subsection*{Diagram rozliczeniowy}\n\includegraphics[scale=0.4]{diagram_rozliczenie.png}\\\\\\end{document}"
+    result += "\subsection*{Diagram rozliczeniowy}\n\includegraphics[scale=0.4]{out/diagram_rozliczenie.png}\\\\\\end{document}"
     with open("out/raport.tex", "w", encoding="utf-8") as raporttex:
         raporttex.write(result)
+
+    # Kompilacja LaTeX do PDF
+    try:
+        result = subprocess.run(
+            ["pdflatex", "-interaction=nonstopmode", "-output-directory=out", "out/raport.tex"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            check=True
+        )
+        print("✅ Plik PDF został wygenerowany w folderze 'out'.")
+        print(result.stdout)  # (opcjonalnie: pokazuje wynik kompilacji)
+    except subprocess.CalledProcessError as e:
+        print("❌ Błąd kompilacji LaTeX:")
+        print(e.stdout)
+        print(e.stderr)
+    except FileNotFoundError:
+        print("❌ Nie znaleziono komendy 'pdflatex'. Upewnij się, że LaTeX jest zainstalowany i dodany do PATH.")
